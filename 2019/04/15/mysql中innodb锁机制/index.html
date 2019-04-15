@@ -5,15 +5,19 @@
   
 
   
-  <title>让时光流逝的个人专栏</title>
+  <title>mysql中innodb锁机制 | 让时光流逝的个人专栏</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="让时光流逝的个人专栏">
-<meta property="og:url" content="http://wangjieordinary.github.io/index.html">
+  <meta name="description" content="InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）；二是采用了行级锁 事务（Transaction）及其ACID属性事务具有以下4个属性12341. 原子性（Atomicity）：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。2. 一致性（Consistent）：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql中innodb锁机制">
+<meta property="og:url" content="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/index.html">
 <meta property="og:site_name" content="让时光流逝的个人专栏">
+<meta property="og:description" content="InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）；二是采用了行级锁 事务（Transaction）及其ACID属性事务具有以下4个属性12341. 原子性（Atomicity）：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。2. 一致性（Consistent）：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-15T07:55:52.871Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="让时光流逝的个人专栏">
+<meta name="twitter:title" content="mysql中innodb锁机制">
+<meta name="twitter:description" content="InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）；二是采用了行级锁 事务（Transaction）及其ACID属性事务具有以下4个属性12341. 原子性（Atomicity）：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。2. 一致性（Consistent）：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用">
   
   
     <link rel="icon" href="/favicon.png">
@@ -56,9 +60,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-mysql中innodb锁机制" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql中innodb锁机制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/15/mysql中innodb锁机制/" class="article-date">
   <time datetime="2019-04-15T07:52:26.000Z" itemprop="datePublished">2019-04-15</time>
@@ -71,8 +73,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/mysql中innodb锁机制/">mysql中innodb锁机制</a>
+    <h1 class="article-title" itemprop="name">
+      mysql中innodb锁机制
     </h1>
   
 
@@ -92,50 +94,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hexo使用问题-md" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/14/hexo使用问题-md/" class="article-date">
-  <time datetime="2019-04-14T00:13:43.000Z" itemprop="datePublished">2019-04-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/14/hexo使用问题-md/">hexo 安装问题</a>
-    </h1>
+    <a href="/2019/04/14/hexo使用问题-md/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo 安装问题</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hexo-安装问题"><a href="#hexo-安装问题" class="headerlink" title="hexo 安装问题"></a>hexo 安装问题</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g hexo-cli --registry https://registry.npm.taobao.org <span class="comment"># 这里使用淘宝镜像也可以全局设置 npm config set registry https://registry.npm.taobao.org</span></span><br></pre></td></tr></table></figure>
-<p>错误提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unable to verify the first certificate（无法验证第一证书）</span><br></pre></td></tr></table></figure></p>
-<p>问题是2014年2月27日npm不再支持自签名证书。<br>解决方法：<br>关闭ssl验证：npm config set strict-ssl false</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjui2dkpf0000ey212odvurxv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
