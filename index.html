@@ -58,6 +58,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql-索引" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/17/mysql-索引/" class="article-date">
+  <time datetime="2019-04-16T23:41:22.000Z" itemprop="datePublished">2019-04-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/17/mysql-索引/">mysql 索引</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="mysql索引概念"><a href="#mysql索引概念" class="headerlink" title="mysql索引概念"></a>mysql索引概念</h3><p>索引是一种特殊的文件(InnoDB数据表上的索引是表空间的一个组成部分)，它们包含着对数据表里所有记录的引用指针。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询速度。</p>
+<h3 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h3><p>优点：加快了查询的速度(select)<br>缺点：降低了增删改的速度(update/delete/insert)，增加了表的文件大小(索引文件甚至可能比数据文件还大)</p>
+<h3 id="索引的使用原则"><a href="#索引的使用原则" class="headerlink" title="索引的使用原则"></a>索引的使用原则</h3><ul>
+<li>索引条件列(where后面最频繁的条件比较适宜索引)</li>
+<li>索引散列值，过于集中的值不要索引</li>
+</ul>
+<h3 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h3><ul>
+<li>普通索引：仅仅是加快了查询速度</li>
+<li>唯一索引：行上的值不能重复</li>
+<li>主键索引：不能重复</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主键索引和唯一索引的区别：主键必唯一，但是唯一索引不一定是主键；</span><br><span class="line">一张表上只能有一个主键，但是可以有一个或多个唯一索引</span><br></pre></td></tr></table></figure>
+<ul>
+<li>全文索引<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在MySQL5.6以下，只有MyISAM表支持全文检索。在MySQL5.6以上Innodb引擎表也提供支持全文检索</span><br><span class="line">相应字段建立FULLTEXT索引</span><br><span class="line">MySQL不支持中文全文索引，原因很简单：与英文不同，中文的文字是连着一起写的，中间没有MySQL能找到分词的地方，截至目前MySQL5.6版本是如此，但是有变通的办法，就是将整句的中文分词，并按urlencode、区位码、base64、拼音等进行编码使之以“字母+数字”的方式存储于数据库中。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="查看某张表上的所有索引"><a href="#查看某张表上的所有索引" class="headerlink" title="查看某张表上的所有索引"></a>查看某张表上的所有索引</h3><p>show index from tableName [\G,如果是在cmd窗口，可以换行];</p>
+<h3 id="建立索引"><a href="#建立索引" class="headerlink" title="建立索引"></a>建立索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">add</span> <span class="keyword">index</span>/<span class="keyword">unique</span>/fulltext [索引名](列名) ;  <span class="comment">---索引名可不写,不写默认使用列名</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">add</span> primary <span class="keyword">key</span>(列名)    <span class="comment">--不要加索引名，因为主键只有一个</span></span><br></pre></td></tr></table></figure>
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#删除非主键索引</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">drop</span> <span class="keyword">index</span> 索引名；</span><br><span class="line"><span class="comment">#删除主键索引</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">drop</span> primary <span class="keyword">key</span>;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/mysql-索引/" data-id="cjukg3ytb0004xg21cny3wb5y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-laravel-使用mongodb" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/17/laravel-使用mongodb/" class="article-date">
@@ -95,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjukcdo3u0001gd212hxwogzd" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjukg3yt90002xg21chquheas" class="article-share-link">Share</a>
       
       
     </footer>
@@ -132,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjukcdo3r0000gd21wt1kakl9" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjukg3yt70001xg21681ijkzp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjukcdo3w0002gd21w33h3yah" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjukg3yta0003xg215hhg9vm2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,7 +313,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjukcdo3x0003gd21nrnt1xtq" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjukg3yt30000xg21ynllo3i2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,6 +352,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/17/mysql-索引/">mysql 索引</a>
+          </li>
         
           <li>
             <a href="/2019/04/17/laravel-使用mongodb/">laravel 使用mongodb</a>
