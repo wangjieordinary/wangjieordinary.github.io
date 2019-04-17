@@ -93,7 +93,10 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主键索引和唯一索引的区别：主键必唯一，但是唯一索引不一定是主键；</span><br><span class="line">一张表上只能有一个主键，但是可以有一个或多个唯一索引</span><br></pre></td></tr></table></figure>
 <ul>
-<li>全文索引<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在MySQL5.6以下，只有MyISAM表支持全文检索。在MySQL5.6以上Innodb引擎表也提供支持全文检索</span><br><span class="line">相应字段建立FULLTEXT索引</span><br><span class="line">MySQL不支持中文全文索引，原因很简单：与英文不同，中文的文字是连着一起写的，中间没有MySQL能找到分词的地方，截至目前MySQL5.6版本是如此，但是有变通的办法，就是将整句的中文分词，并按urlencode、区位码、base64、拼音等进行编码使之以“字母+数字”的方式存储于数据库中。</span><br></pre></td></tr></table></figure>
+<li><p>全文索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在MySQL5.6以下，只有MyISAM表支持全文检索。在MySQL5.6以上Innodb引擎表也提供支持全文检索</span><br><span class="line">相应字段建立FULLTEXT索引</span><br><span class="line">MySQL不支持中文全文索引，原因很简单：与英文不同，中文的文字是连着一起写的，中间没有MySQL能找到分词的地方，截至目前MySQL5.6版本是如此，但是有变通的办法，就是将整句的中文分词，并按urlencode、区位码、base64、拼音等进行编码使之以“字母+数字”的方式存储于数据库中。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>联合索引<br>多列b+tree，使用多列值组合而成的b+tree索引<br>遵循最左侧原则，从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。例如索引是key index (a,b,c). 可以支持a a,b a,b,c 3种组合进行查找，但不支持 b,c进行查找。当使用最左侧字段时，索引就十分有效。</p>
 </li>
 </ul>
 <h3 id="查看某张表上的所有索引"><a href="#查看某张表上的所有索引" class="headerlink" title="查看某张表上的所有索引"></a>查看某张表上的所有索引</h3><p>show index from tableName [\G,如果是在cmd窗口，可以换行];</p>
@@ -103,7 +106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/17/mysql-索引/" data-id="cjukg3ytb0004xg21cny3wb5y" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/mysql-索引/" data-id="cjukgl6kv00041w21jlwbulds" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjukg3yt90002xg21chquheas" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjukgl6ku00031w21tdtbhw7u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjukg3yt70001xg21681ijkzp" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjukgl6kr00011w21sltrbs4p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -274,7 +277,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjukg3yta0003xg215hhg9vm2" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjukgl6kt00021w21ozjmvmbz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -313,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjukg3yt30000xg21ynllo3i2" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjukgl6kn00001w21fksfyb8u" class="article-share-link">Share</a>
       
       
     </footer>
