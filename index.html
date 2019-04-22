@@ -58,6 +58,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ubuntu-安装openvpn服务端" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/22/ubuntu-安装openvpn服务端/" class="article-date">
+  <time datetime="2019-04-22T11:36:42.000Z" itemprop="datePublished">2019-04-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/22/ubuntu-安装openvpn服务端/">ubuntu18 安装openvpn</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="第一步-安装openvpn"><a href="#第一步-安装openvpn" class="headerlink" title="第一步 安装openvpn"></a>第一步 安装openvpn</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install openvpn easy-rsa</span><br></pre></td></tr></table></figure>
+<h4 id="第二步-新建CA证书文件夹"><a href="#第二步-新建CA证书文件夹" class="headerlink" title="第二步 新建CA证书文件夹"></a>第二步 新建CA证书文件夹</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">make-cadir ~/openvpn-ca</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">mkdir ~/openvpn-ca</span><br><span class="line">cp -r /usr/share/easy-rsa/*  ~/openvpn-ca</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/openvpn-ca</span><br></pre></td></tr></table></figure>
+<h4 id="配置CA变量"><a href="#配置CA变量" class="headerlink" title="配置CA变量"></a>配置CA变量</h4><p>要配置我们的CA将要用到的值，我们需要编辑目录中的vars文件。现在用文本编辑器编辑该文件（我通常使用vim）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim vars</span><br></pre></td></tr></table></figure></p>
+<p> 在里面，您会发现一些可以调整的变量，以确定如何创建证书。我们只需要担心其中的一些。<br> 将以下部分值编辑为您喜欢的任何值，但不要将它们留空，有如下示例：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> KEY_COUNTRY=<span class="string">"CN"</span></span><br><span class="line"><span class="built_in">export</span> KEY_PROVINCE=<span class="string">"SC"</span></span><br><span class="line"><span class="built_in">export</span> KEY_CITY=<span class="string">"Chengdu"</span></span><br><span class="line"><span class="built_in">export</span> KEY_ORG=<span class="string">"whatever you like"</span></span><br><span class="line"><span class="built_in">export</span> KEY_EMAIL=<span class="string">"whatever you like"</span></span><br><span class="line"><span class="built_in">export</span> KEY_OU=<span class="string">"Community"</span></span><br><span class="line"><span class="built_in">export</span> KEY_NAME=<span class="string">"server"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="第四步-制作CA"><a href="#第四步-制作CA" class="headerlink" title="第四步 制作CA"></a>第四步 制作CA</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/openvpn-ca</span><br><span class="line"><span class="built_in">source</span> vars</span><br></pre></td></tr></table></figure>
+<p>或许你也会遇到跟我一样的问题<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">**************************************************************</span><br><span class="line">  No /home/ubuntu/openvpn-ca/openssl.cnf file could be found</span><br><span class="line">  Further invocations will fail</span><br><span class="line">**************************************************************</span><br><span class="line">NOTE: If you run ./clean-all, I will be doing a rm -rf on /home/ubuntu/openvpn-ca/keys</span><br></pre></td></tr></table></figure></p>
+<p>输入ls会发现，有几个版本的openssl配置文件我们复制一个<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ~/openvpn-ca/openssl-1.0.0.cnf  ~/openvpn-ca/openssl.cnf</span><br></pre></td></tr></table></figure></p>
+<p>再次执行<code>source vars</code>就不会报错了<br>然后执行以下命令来构建我们的根CA<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./clean-all</span><br><span class="line">./build-ca</span><br></pre></td></tr></table></figure></p>
+<p>一直按enter确认选择即可</p>
+<h4 id="第五步-创建服务器证书，密钥和加密文件"><a href="#第五步-创建服务器证书，密钥和加密文件" class="headerlink" title="第五步 创建服务器证书，密钥和加密文件"></a>第五步 创建服务器证书，密钥和加密文件</h4><p>接下来，我们将生成服务器证书和密钥对，以及加密过程中使用的一些其他文件。首先生成OpenVPN服务器证书和密钥对。我们可以通过输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build-key-server server</span><br></pre></td></tr></table></figure></p>
+<p>接下来，我们将生成一些其他项目。 我们可以通过键入生成一个强大的Diffie-Hellman密钥，以便在密钥交换期间使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build-dh</span><br></pre></td></tr></table></figure></p>
+<p>之后，我们可以生成HMAC签名以增强服务器的TLS完整性验证功能<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openvpn --genkey --secret keys/ta.key</span><br></pre></td></tr></table></figure></p>
+<h4 id="第六步-生成客户端证书和密钥对"><a href="#第六步-生成客户端证书和密钥对" class="headerlink" title="第六步 生成客户端证书和密钥对"></a>第六步 生成客户端证书和密钥对</h4><p>接下来，我们可以生成客户端证书和密钥对。 虽然这可以在客户端计算机上完成，然后出于安全目的由服务器/ CA签名，但为了简单起见，我们将在本指南中生成服务器上的签名密钥。<br>我们将为本指南生成单个客户端密钥/证书，但如果您有多个客户端，则可以根据需要重复此过程。 为每个客户端传递一个唯一值的脚本。<br><strong>注：在openvpn中，这种配置方法是每一个登陆的VPN客户端需要有一个证书，每个证书在同一时刻只能供一个客户端连接（如果有两个机器安装相同证书，同时拨服务器，都能拨上，但是只有第一个拨上的才能连通网络）。所以需要建立许多份证书。</strong><br>因为您可能稍后再回到此步骤，我们将重新获取vars文件。 我们将使用client1作为本指南的第一个证书/密钥对的值。<br>要生成没有密码的凭据，以帮助自动连接，请使用build-key命令，如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/openvpn-ca</span><br><span class="line"><span class="built_in">source</span> vars</span><br><span class="line">./build-key client1</span><br></pre></td></tr></table></figure></p>
+<p>生成的证书文件均在<code>~/openvpn-ca/keys</code>下</p>
+<h4 id="第七步-配置OpenVPN服务"><a href="#第七步-配置OpenVPN服务" class="headerlink" title="第七步 配置OpenVPN服务"></a>第七步 配置OpenVPN服务</h4><p>开始之前，把我们需要的相关文件复制到<code>/etc/openvpn</code>这个配置目录中去，即把<code>~/openvpn-ca/keys</code>目录下面的ca.crt，ca.key，server.crt，server.key，HMAC签名以及Diffie-Hellman文件复制到/etc/openvpn这个目录下面<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/openvpn-ca/keys</span><br><span class="line">sudo cp ca.crt ca.key server.crt server.key ta.key dh2048.pem /etc/openvpn</span><br></pre></td></tr></table></figure></p>
+<p>然后从OpenVPN自带的配置模板中复制配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn/</span><br><span class="line"><span class="built_in">cd</span> /etc/openvpn/</span><br><span class="line">sudo gzip -d server.conf.gz</span><br></pre></td></tr></table></figure></p>
+<p>接下来修改配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/openvpn/server.conf</span><br></pre></td></tr></table></figure></p>
+<p>然后找到<code>tls-auth ta.key 0</code>，在下方增加一个key-direction参数，设置其参数值为0<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tls-auth ta.key 0</span><br><span class="line">key-direction 0</span><br></pre></td></tr></table></figure></p>
+<p>然后找到<code>cipher AES-256-CBC</code>，在下方增加<code>auth SHA256</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cipher AES-256-CBC</span><br><span class="line">auth SHA256</span><br></pre></td></tr></table></figure></p>
+<p>在完成初始化工作之后，降低OpenVPN守护进程的权限<br>取消下面的注释<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user nobody</span><br><span class="line">group nobody</span><br></pre></td></tr></table></figure></p>
+<p>完成以上步骤保存退出</p>
+<h4 id="第八步-调整服务的网络配置"><a href="#第八步-调整服务的网络配置" class="headerlink" title="第八步 调整服务的网络配置"></a>第八步 调整服务的网络配置</h4><p>允许IP转发<br>首先，我们需要让我们的服务器来转发流量，这是我们需要VPN服务器来提供的最基本的功能。我们可以通过修改/etc/sysctl.conf文件来调整网络设置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<p>在这个文件里面，找到<code>net.ipv4.ip_forward</code>，去除这一行之前的”#”来解注释这个参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure></p>
+<p>然后保存退出<br>为了读取sysctl.conf文件并且让调整后设置对当前系统的session生效，键入如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure></p>
+<h4 id="第九步-开启vpn服务"><a href="#第九步-开启vpn服务" class="headerlink" title="第九步 开启vpn服务"></a>第九步 开启vpn服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service openvpn start</span><br></pre></td></tr></table></figure>
+<p>查看vpn状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service openvpn status</span><br></pre></td></tr></table></figure></p>
+<h4 id="第十步-链接openvpn"><a href="#第十步-链接openvpn" class="headerlink" title="第十步 链接openvpn"></a>第十步 链接openvpn</h4><p>下载<a href="https://www.techspot.com/downloads/5182-openvpn.html" target="_blank" rel="noopener">openvpn客户端</a><br>在openvpn的安装目录中sample-config文件夹下有客户端的模板示例配置文件client.ovpn<br>需要修改注意的地方<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Are we connecting to a TCP or</span></span><br><span class="line"><span class="comment"># UDP server?  Use the same setting as</span></span><br><span class="line"><span class="comment"># on the server.</span></span><br><span class="line">;proto tcp</span><br><span class="line">proto udp</span><br><span class="line"><span class="comment"># The hostname/IP and port of the server.</span></span><br><span class="line"><span class="comment"># You can have multiple remote entries</span></span><br><span class="line"><span class="comment"># to load balance between the servers.</span></span><br><span class="line">remote 192.168.0.1 1194 <span class="comment">#服务器ip地址及端口</span></span><br><span class="line">;remote my-server-2 1194</span><br><span class="line">user nobody</span><br><span class="line">group nobody</span><br><span class="line"></span><br><span class="line"><span class="comment"># SSL/TLS parms.</span></span><br><span class="line"><span class="comment"># See the server config file for more</span></span><br><span class="line"><span class="comment"># description.  It's best to use</span></span><br><span class="line"><span class="comment"># a separate .crt/.key file pair</span></span><br><span class="line"><span class="comment"># for each client.  A single ca</span></span><br><span class="line"><span class="comment"># file can be used for all clients.</span></span><br><span class="line">ca ca.crt</span><br><span class="line">cert client1.crt</span><br><span class="line">key client1.key</span><br><span class="line"><span class="comment"># Select a cryptographic cipher.</span></span><br><span class="line"><span class="comment"># If the cipher option is used on the server</span></span><br><span class="line"><span class="comment"># then you must also specify it here.</span></span><br><span class="line"><span class="comment"># Note that v2.4 client/server will automatically</span></span><br><span class="line"><span class="comment"># negotiate AES-256-GCM in TLS mode.</span></span><br><span class="line"><span class="comment"># See also the ncp-cipher option in the manpage</span></span><br><span class="line">cipher AES-256-CBC</span><br><span class="line">auth SHA256</span><br></pre></td></tr></table></figure></p>
+<p>这些地方都需要参考服务器端修改<br>以下为特例这里必须为1以来配合服务器端:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># If a tls-auth key is used on the server</span></span><br><span class="line"><span class="comment"># then every client must also have the key.</span></span><br><span class="line">tls-auth ta.key 1</span><br><span class="line">key-direction 1</span><br></pre></td></tr></table></figure></p>
+<p>做完配置文件之后以管理员身份运行openvpn-gui.exe，选择导入配置文件，然后使用ftp工具（我使用的是winscp）下载服务器端~/openvpn-ca/keys文件夹下的ca.crt、client1.crt、client1.key、ta.key。右击任务栏中openvpn选择选项可以看到一些常规设置，将下载的文件复制到配置文件文件夹<br>右击选择链接，正常情况下就可以正常使用了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wangjieordinary.github.io/2019/04/22/ubuntu-安装openvpn服务端/" data-id="cjusaecwo0002tz21arkszif9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql-索引" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/17/mysql-索引/" class="article-date">
@@ -106,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/17/mysql-索引/" data-id="cjukgl6kv00041w21jlwbulds" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/mysql-索引/" data-id="cjusaecwn0001tz21m7vuadou" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjukgl6ku00031w21tdtbhw7u" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/17/laravel-使用mongodb/" data-id="cjusaecwj0000tz21kf9teup1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjukgl6kr00011w21sltrbs4p" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjusaecwp0003tz21t9rcb8h5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -277,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjukgl6kt00021w21ozjmvmbz" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/15/mysql中innodb锁机制/" data-id="cjusaecwr0005tz2113f1igc1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -316,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjukgl6kn00001w21fksfyb8u" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/04/14/hexo使用问题-md/" data-id="cjusaecwq0004tz21xnwwisv7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -357,6 +422,10 @@
       <ul>
         
           <li>
+            <a href="/2019/04/22/ubuntu-安装openvpn服务端/">ubuntu18 安装openvpn</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/17/mysql-索引/">mysql 索引</a>
           </li>
         
@@ -370,10 +439,6 @@
         
           <li>
             <a href="/2019/04/15/mysql中innodb锁机制/">mysql中innodb锁机制</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/14/hexo使用问题-md/">hexo 安装问题</a>
           </li>
         
       </ul>
