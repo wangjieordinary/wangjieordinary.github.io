@@ -5,19 +5,19 @@
   
 
   
-  <title>md使用 | 让时光流逝的个人专栏</title>
+  <title>php实现文件下载 | 让时光流逝的个人专栏</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="md使用文档可参考md官网">
+  <meta name="description" content="php实现文件下载1234567891011121314Header ( &quot;Content-type: application/octet-stream&quot; );$ua = $_SERVER [&quot;HTTP_USER_AGENT&quot;];$file = &apos;/var/www/tmp.txt&apos;;$filename = basename ( $file );$encoded_filename = rawurle">
 <meta property="og:type" content="article">
-<meta property="og:title" content="md使用">
-<meta property="og:url" content="http://wangjieordinary.github.io/2019/04/15/md使用/index.html">
+<meta property="og:title" content="php实现文件下载">
+<meta property="og:url" content="http://wangjieordinary.github.io/2019/05/17/php实现文件下载/index.html">
 <meta property="og:site_name" content="让时光流逝的个人专栏">
-<meta property="og:description" content="md使用文档可参考md官网">
+<meta property="og:description" content="php实现文件下载1234567891011121314Header ( &quot;Content-type: application/octet-stream&quot; );$ua = $_SERVER [&quot;HTTP_USER_AGENT&quot;];$file = &apos;/var/www/tmp.txt&apos;;$filename = basename ( $file );$encoded_filename = rawurle">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-15T09:04:43.428Z">
+<meta property="og:updated_time" content="2019-05-17T05:06:25.643Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="md使用">
-<meta name="twitter:description" content="md使用文档可参考md官网">
+<meta name="twitter:title" content="php实现文件下载">
+<meta name="twitter:description" content="php实现文件下载1234567891011121314Header ( &quot;Content-type: application/octet-stream&quot; );$ua = $_SERVER [&quot;HTTP_USER_AGENT&quot;];$file = &apos;/var/www/tmp.txt&apos;;$filename = basename ( $file );$encoded_filename = rawurle">
   
   
     <link rel="icon" href="/favicon.png">
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-md使用" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-php实现文件下载" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/15/md使用/" class="article-date">
-  <time datetime="2019-04-15T09:03:27.000Z" itemprop="datePublished">2019-04-15</time>
+    <a href="/2019/05/17/php实现文件下载/" class="article-date">
+  <time datetime="2019-05-17T05:05:26.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      md使用
+      php实现文件下载
     </h1>
   
 
@@ -82,12 +82,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>md使用文档可参考<a href="https://www.mdeditor.com/" target="_blank" rel="noopener">md官网</a></p>
-
+        <h2 id="php实现文件下载"><a href="#php实现文件下载" class="headerlink" title="php实现文件下载"></a>php实现文件下载</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Header ( <span class="string">"Content-type: application/octet-stream"</span> );</span><br><span class="line">$ua = $_SERVER [<span class="string">"HTTP_USER_AGENT"</span>];</span><br><span class="line">$file = <span class="string">'/var/www/tmp.txt'</span>;</span><br><span class="line">$filename = basename ( $file );</span><br><span class="line">$encoded_filename = rawurlencode ( $filename );</span><br><span class="line"><span class="keyword">if</span> (preg_match ( <span class="string">"/MSIE/"</span>, $ua )) &#123;</span><br><span class="line">    header ( <span class="string">'Content-Disposition: attachment; filename="'</span> . $encoded_filename . <span class="string">'"'</span> );</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (preg_match ( <span class="string">"/Firefox/"</span>, $ua )) &#123;</span><br><span class="line">    header ( <span class="string">"Content-Disposition: attachment; filename*=\"utf8''"</span> . $filename . <span class="string">'"'</span> );</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    header ( <span class="string">'Content-Disposition: attachment; filename="'</span> . $filename . <span class="string">'"'</span> );</span><br><span class="line">&#125;</span><br><span class="line">header ( <span class="string">"Content-Length: "</span> . filesize ( $file ) );</span><br><span class="line">readfile ( $file );</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wangjieordinary.github.io/2019/04/15/md使用/" data-id="cjvrmf5rk00064h21iwust0ll" class="article-share-link">Share</a>
+      <a data-url="http://wangjieordinary.github.io/2019/05/17/php实现文件下载/" data-id="cjvrmf5rb00044h2147q8lu5l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -96,19 +95,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/04/17/laravel-使用mongodb/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          laravel 使用mongodb
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/15/mysql中innodb锁机制/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/04/22/ubuntu-安装openvpn服务端/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">mysql中innodb锁机制</div>
+      <div class="article-nav-title">ubuntu18 安装openvpn</div>
     </a>
   
 </nav>
